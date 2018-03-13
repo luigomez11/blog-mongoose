@@ -2,6 +2,7 @@
 
 const bodyParser = require('body-parser');
 const express = require('express');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -16,10 +17,7 @@ app.get('/posts', (req, res) => {
 	BlogPost
 		.find()
 		.then(blogposts => {
-			res.json({
-				blogposts: blogposts.map(
-					(blogpost) => blogpost.serialize())
-			});
+			res.json(blogposts.map((blogpost) => blogpost.serialize()));
 		})
 		.catch(err => {
 			console.error(err);
@@ -39,7 +37,7 @@ app.get('/posts/:id', (req, res) => {
 
 app.post('/posts', (req, res) => {
 
-  const requiredFields = ['title', 'content', 'author', 'firstName', 'lastName'];
+  const requiredFields = ['title', 'content', 'author'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -53,9 +51,7 @@ app.post('/posts', (req, res) => {
     .create({
       title: req.body.title,
       content: req.body.content,
-      author: req.body.author,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
+      author: req.body.author
     })
     .then(blogpost => res.status(201).json(blogpost.serialize()))
     .catch(err => {
@@ -74,7 +70,7 @@ app.put('/posts/:id', (req, res) => {
   }
 
   const toUpdate = {};
-  const updateableFields = ['title', 'content', 'author', 'firstName', 'lastName'];
+  const updateableFields = ['title', 'content', 'author'];
 
   updateableFields.forEach(field => {
     if (field in req.body) {

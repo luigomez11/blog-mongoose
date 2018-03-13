@@ -9,11 +9,11 @@ const blogSchema = mongoose.Schema({
 		firstName: String,
 		lastName: String
 	},
-	created: {type: Number}
+	created: {type: Date, default: Date.now}
 });
 
 blogSchema.virtual('authorString').get(function(){
-	return `${this.author.firstName} ${this.author.lastName}`;
+	return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
 blogSchema.methods.serialize = function(){
