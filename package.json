@@ -2,7 +2,7 @@
   "name": "blog-mongoose",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js", // look over again
+  "main": "config.js", // look over again
   "scripts": {
     "test": "mocha --exit",
     "start": "node server.js"
